@@ -53,7 +53,7 @@ router.get("/:playlistId", function(req, res, next) {
 				title: element.title,
 				//description: "Description " + i,
 				url: element.url, // link to the item
-				guid: element.id, // optional - defaults to url
+				guid: "http://ytpl2pc.meneses.pt/video/" + element.id, // optional - defaults to url
 				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
 				author: element.author.name, // optional - defaults to feed author property
 				//date: "Jan 07, 2019", // any format that js Date can parse.
