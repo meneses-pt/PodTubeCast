@@ -1,9 +1,6 @@
 const express = require("express");
-//const ytlist = require("youtube-playlist");
 const podcast = require("podcast");
 var ytpl = require("ytpl");
-var fs = require('fs');
-var youtubedl = require('youtube-dl');
 const router = express.Router();
 
 const config = {
