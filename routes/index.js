@@ -14,6 +14,8 @@ const config = {
 router.get("/:playlistId", function(req, res, next) {
 	var url = "https://www.youtube.com/playlist?list=PL-yLvk8MCLtzAgVNg77IDxfdo8-2GHdPr";
 
+	var baseAddress = req.get('protocol') + "://" + req.get('host');
+
 	ytpl(req.params.playlistId, function(err, playlist) {
 		if (err) throw err;
 
@@ -23,7 +25,7 @@ router.get("/:playlistId", function(req, res, next) {
 		const feed = new podcast({
 			title: playlist.title,
 			description: playlist.title + " (Podcast Feed)",
-			feed_url: req.get('host') + "/playlist/" + req.params.playlistId,
+			feed_url: baseAddress + "/playlist/" + req.params.playlistId,
 			//site_url: "http://www.malucobeleza.tv/",
 			//image_url: "http://www.malucobeleza.tv/wp-content/uploads/2015/08/logo-mb-retina.png",
 			author: playlist.author.name,
@@ -52,14 +54,14 @@ router.get("/:playlistId", function(req, res, next) {
 			feed.addItem({
 				title: element.title,
 				//description: "Description " + i,
-				url: element.url, // link to the item
-				guid: req.get('host') + "/video/" + element.id, // optional - defaults to url
+				url: baseAddress + "/video/" + element.id, // link to the item
+				guid: baseAddress + "/video/" + element.id, // optional - defaults to url
 				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
 				author: element.author.name, // optional - defaults to feed author property
 				//date: "Jan 07, 2019", // any format that js Date can parse.
 				//lat: 33.417974, //optional latitude field for GeoRSS
 				//long: -111.933231, //optional longitude field for GeoRSS
-				enclosure : {url: req.get('host') + "/video/" + element.id/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
+				enclosure : {url: baseAddress + "/video/" + element.id/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
 				itunesAuthor: element.author.name,
 				itunesExplicit: false,
 				//itunesSubtitle: "iTunes Subtitle " + i,
