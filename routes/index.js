@@ -14,7 +14,7 @@ const config = {
 router.get("/:playlistId", function(req, res, next) {
 	var url = "https://www.youtube.com/playlist?list=PL-yLvk8MCLtzAgVNg77IDxfdo8-2GHdPr";
 
-	var baseAddress = req.get('protocol') + "://" + req.get('host');
+	var baseAddress = req.protocol + "://" + req.host;
 
 	ytpl(req.params.playlistId, function(err, playlist) {
 		if (err) throw err;
