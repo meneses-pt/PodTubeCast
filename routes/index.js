@@ -23,7 +23,7 @@ router.get("/:playlistId", function(req, res, next) {
 		const feed = new podcast({
 			title: playlist.title,
 			description: playlist.title + " (Podcast Feed)",
-			feed_url: "http://ytpl2pc.meneses.pt/playlist/" + req.params.playlistId,
+			feed_url: req.get('host') + "/playlist/" + req.params.playlistId,
 			//site_url: "http://www.malucobeleza.tv/",
 			//image_url: "http://www.malucobeleza.tv/wp-content/uploads/2015/08/logo-mb-retina.png",
 			author: playlist.author.name,
@@ -53,13 +53,13 @@ router.get("/:playlistId", function(req, res, next) {
 				title: element.title,
 				//description: "Description " + i,
 				url: element.url, // link to the item
-				guid: "http://ytpl2pc.meneses.pt/video/" + element.id, // optional - defaults to url
+				guid: req.get('host') + "/video/" + element.id, // optional - defaults to url
 				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
 				author: element.author.name, // optional - defaults to feed author property
 				//date: "Jan 07, 2019", // any format that js Date can parse.
 				//lat: 33.417974, //optional latitude field for GeoRSS
 				//long: -111.933231, //optional longitude field for GeoRSS
-				enclosure : {url: "http://ytpl2pc.meneses.pt/video/" + element.id/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
+				enclosure : {url: req.get('host') + "/video/" + element.id/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
 				itunesAuthor: element.author.name,
 				itunesExplicit: false,
 				//itunesSubtitle: "iTunes Subtitle " + i,
