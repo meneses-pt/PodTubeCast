@@ -55,13 +55,13 @@ router.get("/:playlistId", function(req, res, next) {
 				title: element.title,
 				//description: "Description " + i,
 				url: baseAddress + "/video/" + element.id, // link to the item
-				guid: baseAddress + "/video/" + element.id, // optional - defaults to url
+				//guid: baseAddress + "/video/" + element.id, // optional - defaults to url
 				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
 				author: element.author.name, // optional - defaults to feed author property
 				//date: "Jan 07, 2019", // any format that js Date can parse.
 				//lat: 33.417974, //optional latitude field for GeoRSS
 				//long: -111.933231, //optional longitude field for GeoRSS
-				enclosure : {url: baseAddress + "/video/" + element.id/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
+				enclosure : {url: baseAddress + "/video/" + element.id, type: "video/mp4"/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
 				itunesAuthor: element.author.name,
 				itunesExplicit: false,
 				//itunesSubtitle: "iTunes Subtitle " + i,
