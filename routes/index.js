@@ -1,7 +1,9 @@
 const express = require("express");
 const podcast = require("podcast");
-var ytpl = require("ytpl");
+const ytpl = require("ytpl");
 const router = express.Router();
+
+const ytdl = require("ytdl-core");
 
 const config = {
 	GOOGLE_API_KEY: "AIzaSyDO-ToHIpj93rOCm_W68bXI93WFZ-JbMw4"
@@ -9,7 +11,7 @@ const config = {
 
 /* GET home page. */
 router.get("/:playlistId", function(req, res, next) {
-	var url = "https://www.youtube.com/playlist?list=PL-yLvk8MCLtzAgVNg77IDxfdo8-2GHdPr";
+	//var url = "https://www.youtube.com/playlist?list=PL-yLvk8MCLtzAgVNg77IDxfdo8-2GHdPr";
 
 	var baseAddress = req.protocol + "://" + req.host;
 
@@ -48,14 +50,20 @@ router.get("/:playlistId", function(req, res, next) {
 		});
 
 		playlist.items.forEach(function(element) {
+
+			
+
+			ytdl.getBasicInfo('http://www.youtube.com/watch?v=' + element.id).then(info => {
+			
+			console.log(info);
 			feed.addItem({
 				title: element.title,
-				//description: "Description " + i,
+				description: info.description,
 				url: baseAddress + "/video/" + element.id, // link to the item
-				//guid: baseAddress + "/video/" + element.id, // optional - defaults to url
+				guid: element.id, // optional - defaults to url
 				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
 				author: element.author.name, // optional - defaults to feed author property
-				//date: "Jan 07, 2019", // any format that js Date can parse.
+				date: info.published, // any format that js Date can parse.
 				//lat: 33.417974, //optional latitude field for GeoRSS
 				//long: -111.933231, //optional longitude field for GeoRSS
 				enclosure : {url: baseAddress + "/video/" + element.id, type: "video/mp4"/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
@@ -64,15 +72,33 @@ router.get("/:playlistId", function(req, res, next) {
 				//itunesSubtitle: "iTunes Subtitle " + i,
 				//itunesSummary: "iTunes Summary " + i,
 				itunesDuration: element.duration,
-				//itunesKeywords: ["javascript", "podcast"]
+				//itunesKeywords: ["javascript", "podcast"],
+				itunesImage: element.thumbnail
 			});
+		
+		
 		});
 
+				
+			  
+		});
+
+	/*ypi("AIzaSyDO-ToHIpj93rOCm_W68bXI93WFZ-JbMw4", req.params.playlistId, options).then(items => {
+		console.log(items);
+		items.forEach(function(element)
+		{
+			var index = feed.items.findIndex(i => i.guid == element.resourceId.videoId);
+			feed.items[index].description = element.description;
+			feed.items[index].date = element.publishedAt;
+		})
+	  }).then(() =>{*/
 		// cache the xml to send to clients
 		const xml = feed.buildXml();
 
 		res.set("Content-Type", "text/xml");
 		res.send(xml);
+		console.log("Send XML");
+	  /*}).catch(console.error);*/
 
 	});
 });
