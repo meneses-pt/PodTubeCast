@@ -21,10 +21,10 @@ router.get("/:playlistId", function(req, res, next) {
 		/* lets create an rss feed */
 		const feed = new podcast({
 			title: playlist.title,
-			description: playlist.title + " (Podcast Feed)",
+			description: "[YTPL2PC] " + playlist.title,
 			feed_url: baseAddress + "/playlist/" + req.params.playlistId,
-			//site_url: "http://www.malucobeleza.tv/",
-			//image_url: "http://www.malucobeleza.tv/wp-content/uploads/2015/08/logo-mb-retina.png",
+			site_url: baseAddress,
+			image_url: "https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" + encodeURI(playlist.title),
 			author: playlist.author.name,
 			//managingEditor: 'Dylan Greene',
 			//webMaster: 'Dylan Greene',
@@ -44,7 +44,7 @@ router.get("/:playlistId", function(req, res, next) {
 				//  "text": "Television"
 				//}]
 			},
-			//itunesImage: "http://www.malucobeleza.tv/wp-content/uploads/2015/08/logo-mb-retina.png"
+			itunesImage: "https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" + encodeURI(playlist.title)
 		});
 
 		playlist.items.forEach(function(element) {
