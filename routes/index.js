@@ -1,18 +1,11 @@
 const express = require("express");
 const podcast = require("podcast");
 const ytpl = require("ytpl");
-const router = express.Router();
-
 const ytdl = require("ytdl-core");
-
-const config = {
-	GOOGLE_API_KEY: "AIzaSyDO-ToHIpj93rOCm_W68bXI93WFZ-JbMw4"
-};
+const router = express.Router();
 
 /* GET home page. */
 router.get("/:playlistId", function(req, res, next) {
-	//var url = "https://www.youtube.com/playlist?list=PL-yLvk8MCLtzAgVNg77IDxfdo8-2GHdPr";
-
 	var baseAddress = req.protocol + "://" + req.host;
 
 	ytpl(req.params.playlistId, function(err, playlist) {
@@ -26,7 +19,9 @@ router.get("/:playlistId", function(req, res, next) {
 			description: "[YTPL2PC] " + playlist.title,
 			feed_url: baseAddress + "/playlist/" + req.params.playlistId,
 			site_url: baseAddress,
-			image_url: "https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" + encodeURI(playlist.title),
+			image_url:
+				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" +
+				encodeURI(playlist.title),
 			author: playlist.author.name,
 			//managingEditor: 'Dylan Greene',
 			//webMaster: 'Dylan Greene',
@@ -36,70 +31,69 @@ router.get("/:playlistId", function(req, res, next) {
 			//pubDate: "Jan 07, 2019 00:00:00 GMT",
 			//ttl: '60',
 			itunesAuthor: playlist.author.name,
-			itunesSubtitle: playlist.title + " (Podcast Feed)",
+			itunesSubtitle: "[YTPL2PC] " + playlist.title,
 			//itunesSummary: 'I am a summary',
 			//itunesOwner: { name: 'Max Nowack', email:'max@unsou.de' },
 			//itunesExplicit: false,
 			itunesCategory: {
-			text: "Podcasts" //,
+				text: "Podcasts" //,
 				//"subcats": [{
 				//  "text": "Television"
 				//}]
 			},
-			itunesImage: "https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" + encodeURI(playlist.title)
+			itunesImage:
+				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" +
+				encodeURI(playlist.title)
 		});
+
+		var promises = [];
 
 		playlist.items.forEach(function(element) {
+			promises.push(
+				ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id)
+			);
+		});
 
-			
+		Promise.all(promises).then(results => {
 
-			ytdl.getBasicInfo('http://www.youtube.com/watch?v=' + element.id).then(info => {
-			
-			console.log(info);
-			feed.addItem({
-				title: element.title,
-				description: info.description,
-				url: baseAddress + "/video/" + element.id, // link to the item
-				guid: element.id, // optional - defaults to url
-				//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
-				author: element.author.name, // optional - defaults to feed author property
-				date: info.published, // any format that js Date can parse.
-				//lat: 33.417974, //optional latitude field for GeoRSS
-				//long: -111.933231, //optional longitude field for GeoRSS
-				enclosure : {url: baseAddress + "/video/" + element.id, type: "video/mp4"/*, file:'path-to-file'*/}, // optional enclosure TODO: Link to episode
-				itunesAuthor: element.author.name,
-				itunesExplicit: false,
-				//itunesSubtitle: "iTunes Subtitle " + i,
-				//itunesSummary: "iTunes Summary " + i,
-				itunesDuration: element.duration,
-				//itunesKeywords: ["javascript", "podcast"],
-				itunesImage: element.thumbnail
+			results.forEach(element => {
+				console.log(element);
+
+				item = playlist.items.find(i => i.id == element.video_id);
+				var format = ytdl.chooseFormat(element.formats, { quality: 'highest' });
+
+				feed.addItem({
+					title: element.title,
+					description: element.description,
+					url: baseAddress + "/video/" + element.video_id, // link to the item
+					guid: element.video_id, // optional - defaults to url
+					//categories: ["Category 1", "Category 2", "Category 3", "Category 4"], // optional - array of item categories
+					author: element.author.name, // optional - defaults to feed author property
+					date: element.published, // any format that js Date can parse.
+					//lat: 33.417974, //optional latitude field for GeoRSS
+					//long: -111.933231, //optional longitude field for GeoRSS
+					enclosure: {
+						url: baseAddress + "/video/" + element.video_id,
+						type: format.type, /*, file:'path-to-file'*/
+						size: format.size || 0
+					}, // optional enclosure TODO: size
+					itunesAuthor: element.author.name,
+					itunesExplicit: false,
+					//itunesSubtitle: "iTunes Subtitle " + i,
+					//itunesSummary: "iTunes Summary " + i,
+					itunesDuration: item.duration,
+					//itunesKeywords: ["javascript", "podcast"],
+					itunesImage: item.thumbnail
+				});
 			});
-		
-		
+
+			const xml = feed.buildXml();
+
+			res.set("Content-Type", "text/xml");
+			res.send(xml);
+			console.log("Send XML");
+
 		});
-
-				
-			  
-		});
-
-	/*ypi("AIzaSyDO-ToHIpj93rOCm_W68bXI93WFZ-JbMw4", req.params.playlistId, options).then(items => {
-		console.log(items);
-		items.forEach(function(element)
-		{
-			var index = feed.items.findIndex(i => i.guid == element.resourceId.videoId);
-			feed.items[index].description = element.description;
-			feed.items[index].date = element.publishedAt;
-		})
-	  }).then(() =>{*/
-		// cache the xml to send to clients
-		const xml = feed.buildXml();
-
-		res.set("Content-Type", "text/xml");
-		res.send(xml);
-		console.log("Send XML");
-	  /*}).catch(console.error);*/
-
 	});
 });
 
