@@ -79,3 +79,4 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 *.code-workspace
+.vscode/launch.json

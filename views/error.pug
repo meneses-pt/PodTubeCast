@@ -1,6 +1,22 @@
 extends layout
 
+
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container
+    .row
+      .col-md-12
+        .error-template
+          h1 Oops!
+          h2 
+            =error.status
+            | 
+            =message
+          .error-details Sorry, an error has occured!
+          .error-actions
+            a.btn.btn-primary.btn-lg(href='./')
+              span.glyphicon.glyphicon-home
+              |                         Take Me Home
+            a.btn.btn-default.btn-lg(href='mailto:andre@meneses.pt?subject=PodTubeCast Support Request')
+              span.glyphicon.glyphicon-envelope
+              |  Contact Support
+        pre #{error.stack}
