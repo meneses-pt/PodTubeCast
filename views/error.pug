@@ -1,6 +1,5 @@
 extends layout
 
-
 block content
   .container
     .row
@@ -8,9 +7,7 @@ block content
         .error-template
           h1 Oops!
           h2 
-            =error.status
-            | 
-            =message
+            =error.message
           .error-details Sorry, an error has occured!
           .error-actions
             a.btn.btn-primary.btn-lg(href='./')
@@ -19,4 +16,5 @@ block content
             a.btn.btn-default.btn-lg(href='mailto:andre@meneses.pt?subject=PodTubeCast Support Request')
               span.glyphicon.glyphicon-envelope
               |  Contact Support
-        pre #{error.stack}
+        if error.stack
+          pre #{error.stack}
