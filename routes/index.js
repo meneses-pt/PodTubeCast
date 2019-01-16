@@ -16,11 +16,11 @@ router.get("/:playlistId", function(req, res, next) {
 		/* lets create an rss feed */
 		const feed = new podcast({
 			title: playlist.title,
-			description: "[YTPL2PC] " + playlist.title,
+			description: "[PodTubeCast] " + playlist.title,
 			feed_url: baseAddress + "/playlist/" + req.params.playlistId,
 			site_url: baseAddress,
 			image_url:
-				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" +
+				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[PodTubeCast]+" +
 				encodeURI(playlist.title),
 			author: playlist.author.name,
 			//managingEditor: 'Dylan Greene',
@@ -31,7 +31,7 @@ router.get("/:playlistId", function(req, res, next) {
 			//pubDate: "Jan 07, 2019 00:00:00 GMT",
 			//ttl: '60',
 			itunesAuthor: playlist.author.name,
-			itunesSubtitle: "[YTPL2PC] " + playlist.title,
+			itunesSubtitle: "[PodTubeCast] " + playlist.title,
 			//itunesSummary: 'I am a summary',
 			//itunesOwner: { name: 'Max Nowack', email:'max@unsou.de' },
 			//itunesExplicit: false,
@@ -42,7 +42,7 @@ router.get("/:playlistId", function(req, res, next) {
 				//}]
 			},
 			itunesImage:
-				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[YTPL2PC]+" +
+				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[PodTubeCast]+" +
 				encodeURI(playlist.title)
 		});
 
