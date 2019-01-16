@@ -3,6 +3,7 @@ const ytdl = require("ytdl-core");
 const router = express.Router();
 
 router.get("/:videoId", function(req, res, next) {
+	res.setHeader('Content-Type', 'video/mp4')
 	ytdl("http://www.youtube.com/watch?v=" + req.params.videoId, { quality: 'highest' }).pipe(res);
 });
 

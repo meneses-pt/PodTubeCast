@@ -1,5 +1,23 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  script.
+    function getYoutubeVideo() {
+      var link = document.createElement("a");
+      link.download = $("#videoId").val() + ".mp4";
+      link.href = 'http://podtubecast.meneses.pt/video/' + $("#videoId").val();
+      link.type = 'video/mpeg'
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      delete link;
+    }
+  .input-group
+    input.form-control(type='text', placeholder='Youtube link of playlist')
+    span.input-group-btn
+      button.btn.btn-default(type='button', onclick='getYoutubePlaylist()') Get your Podcast RSS!
+  br
+  .input-group
+    input.form-control(id='videoId', type='text', placeholder='Youtube link of video')
+    span.input-group-btn
+      button.btn.btn-default(type='button', onclick='getYoutubeVideo()') Get your Youtube video!

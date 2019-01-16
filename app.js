@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
+var playlistRouter = require("./routes/playlist");
 var videoRouter = require("./routes/video");
 
 var app = express();
@@ -19,7 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/playlist", indexRouter);
+app.use("/", indexRouter);
+app.use("/playlist", playlistRouter);
 app.use("/video", videoRouter);
 
 // catch 404 and forward to error handler
