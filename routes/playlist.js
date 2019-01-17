@@ -14,7 +14,7 @@ router.get("/:playlistId", function(req, res, next) {
 	if(isURL(req.params.playlistId)) {
 		parameter = getYotubePlaylistId(req.params.playlistId);
 	} else {
-		parameter = req.params.videoId;
+		parameter = req.params.playlistId;
 	}
 
 	ytpl(parameter, function(err, playlist) {
