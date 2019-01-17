@@ -7,7 +7,7 @@ block content
 	script.
 		function getYoutubePlaylist() {
 			var link = document.createElement("a");
-			link.href = window.location.origin + "/playlist/" + encodeURIComponent($("#playlistId").val());
+			link.href = window.location.origin + "/playlist?playlistId=" + encodeURIComponent($("#playlistId").val());
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
@@ -16,7 +16,7 @@ block content
 		function getYoutubeVideo() {
 			var link = document.createElement("a");
 			link.download = $("#videoId").val() + ".mp4";
-			link.href = window.location.origin + "/video/" + encodeURIComponent($("#videoId").val());
+			link.href = window.location.origin + "/video?videoId=" + encodeURIComponent($("#videoId").val());
 			link.type = 'video/mpeg'
 			document.body.appendChild(link);
 			link.click();
