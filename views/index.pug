@@ -49,7 +49,7 @@ block content
 					input.form-control(id='playlistId', type='text', placeholder='YouTube playlist link or ID')
 				.col-lg-4
 					span.input-group-btn
-						button.btn.btn-default.btn-wide(type='button', onclick='getYoutubePlaylist()') Get your Podcast RSS!
+						button.btn.btn-default.btn-wide(id='playlistBtn', type='button', onclick='getYoutubePlaylist()') Get your Podcast RSS!
 		br
 		.row
 			.input-group
@@ -57,7 +57,7 @@ block content
 					input.form-control(id='videoId', type='text', placeholder='YouTube video link or ID')
 				.col-lg-4
 					span.input-group-btn
-						button.btn.btn-default.btn-wide(type='button', onclick='getYoutubeVideo()') Get your Youtube video!
+						button.btn.btn-default.btn-wide(id='videoBtn', type='button', onclick='getYoutubeVideo()') Get your Youtube video!
 		//-.row.marketing
 			.col-lg-6
 				h4 Subheading
@@ -80,5 +80,18 @@ block content
 		br
 		footer.footer
 			p &copy; meneses.pt 2019
-		
-		
+		script.
+			var playlistInput = document.getElementById("playlistId");
+			playlistInput.addEventListener("keyup", function(event) {
+				event.preventDefault();
+				if (event.keyCode === 13) {
+					document.getElementById("playlistBtn").click();
+				}
+			});
+			var videoInput = document.getElementById("videoId");
+			videoInput.addEventListener("keyup", function(event) {
+				event.preventDefault();
+				if (event.keyCode === 13) {
+					document.getElementById("videoBtn").click();
+				}
+			});
