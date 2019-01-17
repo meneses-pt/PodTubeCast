@@ -7,8 +7,6 @@ router.get("/:videoId", function(req, res, next) {
 
 	if (isURL(req.params.videoId)) {
 		parameter = ytdl.getURLVideoID(req.params.videoId);
-		res.redirect(parameter);
-		return;
 	} else {
 		parameter = req.params.videoId;
 	}

@@ -13,8 +13,6 @@ router.get("/:playlistId", function(req, res, next) {
 	
 	if(isURL(req.params.playlistId)) {
 		parameter = getYotubePlaylistId(req.params.playlistId);
-		res.redirect(parameter);
-		return;
 	} else {
 		parameter = req.params.playlistId;
 	}
