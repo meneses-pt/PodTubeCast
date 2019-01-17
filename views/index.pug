@@ -1,23 +1,84 @@
 extends layout
 
+append scripts
+	link(rel='stylesheet' href='/stylesheets/narrow-jumbotron.css' )
+
 block content
-  script.
-    function getYoutubeVideo() {
-      var link = document.createElement("a");
-      link.download = $("#videoId").val() + ".mp4";
-      link.href = 'http://podtubecast.meneses.pt/video/' + $("#videoId").val();
-      link.type = 'video/mpeg'
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      delete link;
-    }
-  .input-group
-    input.form-control(type='text', placeholder='Youtube link of playlist')
-    span.input-group-btn
-      button.btn.btn-default(type='button', onclick='getYoutubePlaylist()') Get your Podcast RSS!
-  br
-  .input-group
-    input.form-control(id='videoId', type='text', placeholder='Youtube link of video')
-    span.input-group-btn
-      button.btn.btn-default(type='button', onclick='getYoutubeVideo()') Get your Youtube video!
+	script.
+		function getYoutubePlaylist() {
+			var link = document.createElement("a");
+			link.href = 'http://localhost:3000/playlist/' + encodeURIComponent($("#playlistId").val());
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			delete link;
+		}
+		function getYoutubeVideo() {
+			var link = document.createElement("a");
+			link.download = $("#videoId").val() + ".mp4";
+			link.href = 'http://localhost:3000/video/' + encodeURIComponent($("#videoId").val());
+			link.type = 'video/mpeg'
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			delete link;
+		}
+	.container
+		.header.clearfix
+			nav
+			ul.nav.nav-pills.float-right
+				li.nav-item
+				a.nav-link.active(href='#')
+					| Home 
+					span.sr-only (current)
+				li.nav-item
+				//a.nav-link(href='#') About
+				//li.nav-item
+				//a.nav-link(href='#') Contact
+			h3.text-muted PodTubeCast
+		.jumbotron
+			h1.display-3 Youtube Playlists to RSS Podcasts
+			p.lead
+			| Here you can create an RSS feed to use in your podcast player, just by pasting the YouTube Playlist ID or url,
+			| or download your favorite video by with its YouTube ID or url.
+			//p
+			//a.btn.btn-lg.btn-success(href='#' role='button') Sign up today
+		.row
+			.input-group
+				.col-lg-8
+					input.form-control(id='playlistId', type='text', placeholder='YouTube playlist link or ID')
+				.col-lg-4
+					span.input-group-btn
+						button.btn.btn-default.btn-wide(type='button', onclick='getYoutubePlaylist()') Get your Podcast RSS!
+		br
+		.row
+			.input-group
+				.col-lg-8
+					input.form-control(id='videoId', type='text', placeholder='YouTube video link or ID')
+				.col-lg-4
+					span.input-group-btn
+						button.btn.btn-default.btn-wide(type='button', onclick='getYoutubeVideo()') Get your Youtube video!
+		//-.row.marketing
+			.col-lg-6
+				h4 Subheading
+				p
+					| Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+				h4 Subheading
+				p
+					| Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+				h4 Subheading
+				p Maecenas sed diam eget risus varius blandit sit amet non magna.
+			.col-lg-6
+				h4 Subheading
+				p
+					| Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+				h4 Subheading
+				p
+					| Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+				h4 Subheading
+				p Maecenas sed diam eget risus varius blandit sit amet non magna.
+		br
+		footer.footer
+			p &copy; meneses.pt 2019
+		
+		

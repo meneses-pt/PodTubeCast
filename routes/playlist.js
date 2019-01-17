@@ -2,13 +2,22 @@ const express = require("express");
 const podcast = require("podcast");
 const ytpl = require("ytpl");
 const ytdl = require("ytdl-core");
+const getYotubePlaylistId = require('get-youtube-playlist-id')
 const router = express.Router();
 
 /* GET home page. */
 router.get("/:playlistId", function(req, res, next) {
-	var baseAddress = req.protocol + "://" + req.host;
+	var baseAddress = req.protocol + "://" + req.hostname;
 
-	ytpl(req.params.playlistId, function(err, playlist) {
+	var parameter;
+	
+	if(isURL(req.params.playlistId)) {
+		parameter = getYotubePlaylistId(req.params.playlistId);
+	} else {
+		parameter = req.params.videoId;
+	}
+
+	ytpl(parameter, function(err, playlist) {
 		if (err) throw err;
 
 		console.log(playlist);
@@ -17,7 +26,7 @@ router.get("/:playlistId", function(req, res, next) {
 		const feed = new podcast({
 			title: playlist.title,
 			description: "[PodTubeCast] " + playlist.title,
-			feed_url: baseAddress + "/playlist/" + req.params.playlistId,
+			feed_url: baseAddress + "/playlist/" + parameter,
 			site_url: baseAddress,
 			image_url:
 				"https://dummyimage.com/400x400/f2f7f8/40424a.jpg&text=[PodTubeCast]+" +
@@ -50,17 +59,20 @@ router.get("/:playlistId", function(req, res, next) {
 
 		playlist.items.forEach(function(element) {
 			promises.push(
-				ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id)
+				ytdl.getBasicInfo(
+					"http://www.youtube.com/watch?v=" + element.id
+				)
 			);
 		});
 
 		Promise.all(promises).then(results => {
-
 			results.forEach(element => {
 				console.log(element);
 
 				item = playlist.items.find(i => i.id == element.video_id);
-				var format = ytdl.chooseFormat(element.formats, { quality: 'highest' });
+				var format = ytdl.chooseFormat(element.formats, {
+					quality: "highest"
+				});
 
 				feed.addItem({
 					title: element.title,
@@ -74,7 +86,7 @@ router.get("/:playlistId", function(req, res, next) {
 					//long: -111.933231, //optional longitude field for GeoRSS
 					enclosure: {
 						url: baseAddress + "/video/" + element.video_id,
-						type: format.type, /*, file:'path-to-file'*/
+						type: format.type /*, file:'path-to-file'*/,
 						size: format.size || 0
 					}, // optional enclosure TODO: size
 					itunesAuthor: element.author.name,
@@ -92,9 +104,21 @@ router.get("/:playlistId", function(req, res, next) {
 			res.set("Content-Type", "text/xml");
 			res.send(xml);
 			console.log("Send XML");
-
 		});
 	});
 });
+
+function isURL(str) {
+	var pattern = new RegExp(
+		"^(https?:\\/\\/)?" + // protocol
+		"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|" + // domain name
+		"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+		"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+		"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+		"(\\#[-a-z\\d_]*)?$",
+		"i"
+	); // fragment locator
+	return pattern.test(str);
+}
 
 module.exports = router;

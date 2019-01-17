@@ -80,3 +80,4 @@ typings/
 .dynamodb/
 *.code-workspace
 .vscode/launch.json
+package-lock.json
