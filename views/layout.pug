@@ -2,6 +2,13 @@ doctype html
 html
   head
     block scripts
+        // Global site tag (gtag.js) - Google Analytics
+        script(async='' src='https://www.googletagmanager.com/gtag/js?id=UA-132779997-1')
+        script.
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-132779997-1');
         title PodTubeCast
         link(rel='apple-touch-icon-precomposed' sizes='57x57' href='/images/favicon//apple-touch-icon-57x57.png')
         link(rel='apple-touch-icon-precomposed' sizes='114x114' href='/images/favicon//apple-touch-icon-114x114.png')
