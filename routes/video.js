@@ -1,5 +1,6 @@
 const express = require("express");
 const ytdl = require("ytdl-core");
+const webHelpers = require("../helpers/web");
 const router = express.Router();
 
 router.get("/:videoId", function(req, res, next) {
@@ -20,7 +21,7 @@ function processVideoRequest(req, res) {
 	}
 
 	var parameter;
-	if (isURL(videoId)) {
+	if (webHelpers.isURL(videoId)) {
 		parameter = ytdl.getURLVideoID(videoId);
 	}
 	else {
@@ -28,11 +29,12 @@ function processVideoRequest(req, res) {
 	}
 
 	res.setHeader("Content-Type", "video/mp4");
-	ytdl(parameter, { quality: "highest" }).pipe(res);
-}
 
-function isURL(str) {
-	return /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(str); 
+	ytdl(parameter, { quality: "highest" }).on("response", (videoRes) => {
+		res.setHeader("content-type", videoRes.headers["content-type"]);
+		res.setHeader("content-length", videoRes.headers["content-length"]);
+		ytdl(parameter, { quality: "highest" }).pipe(res);
+	});
 }
 
 module.exports = router;
