@@ -28,13 +28,10 @@ function processVideoRequest(req, res) {
 		parameter = videoId;
 	}
 
-	res.setHeader("Content-Type", "video/mp4");
-
-	ytdl(parameter, { quality: "highest" }).on("response", (videoRes) => {
+	ytdl(parameter, { quality: "highest" }).once("response", (videoRes) => {
 		res.setHeader("content-type", videoRes.headers["content-type"]);
 		res.setHeader("content-length", videoRes.headers["content-length"]);
-		ytdl(parameter, { quality: "highest" }).pipe(res);
-	});
+	}).pipe(res);
 }
 
 module.exports = router;
