@@ -79,7 +79,14 @@ block content
 				p Maecenas sed diam eget risus varius blandit sit amet non magna.
 		br
 		footer.footer
-			p &copy; meneses.pt 2019
+			p.float-left
+				| &copy; 
+				a(href='http://meneses.pt') meneses.pt
+				|  2019
+			p.float-right
+				a(href='http://github.com/meneses-pt/PodTubeCast')
+					i.fab.fa-github
+					|  PodTubeCast
 		script.
 			var playlistInput = document.getElementById("playlistId");
 			playlistInput.addEventListener("keyup", function(event) {
