@@ -80,7 +80,7 @@ function processPlaylistRequest(req, res) {
 				});
 				
 				feed.addItem({
-					title: infoElement.title,
+					title: item.title,
 					description: infoElement.description,
 					//url: baseAddress + "/video/" + infoElement.video_id,
 					url: baseAddress + "/video/" + infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2),
