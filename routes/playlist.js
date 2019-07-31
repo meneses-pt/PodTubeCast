@@ -72,7 +72,8 @@ function processPlaylistRequest(req, res) {
 				infoElement = results[i];
 				responseElement = results[i+1];
 				
-				item = playlist.items.find(i => i.id == infoElement.video_id);
+				//item = playlist.items.find(i => i.id == infoElement.video_id);
+				item = playlist.items.find(i => i.id == infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2));
 				
 				var format = ytdl.chooseFormat(infoElement.formats, {
 					quality: "highest"
