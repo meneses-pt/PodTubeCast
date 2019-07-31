@@ -82,12 +82,14 @@ function processPlaylistRequest(req, res) {
 				feed.addItem({
 					title: infoElement.title,
 					description: infoElement.description,
-					url: baseAddress + "/video/" + infoElement.video_id,
+					//url: baseAddress + "/video/" + infoElement.video_id,
+					url: baseAddress + "/video/" + infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2),
 					guid: infoElement.video_id,
 					author: infoElement.author.name,
 					date: infoElement.published,
 					enclosure: {
-						url: baseAddress + "/video/" + infoElement.video_id,
+						//url: baseAddress + "/video/" + infoElement.video_id,
+						url: baseAddress + "/video/" + infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2),
 						type: format.type,
 						size: responseElement != null ? responseElement.headers['content-length'] : 0
 					},
