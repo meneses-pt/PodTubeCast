@@ -73,7 +73,7 @@ function processPlaylistRequest(req, res) {
 				responseElement = results[i+1];
 				
 				//item = playlist.items.find(i => i.id == infoElement.video_id);
-				item = playlist.items.find(i => i.id == infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2));
+				item = playlist.items.find(i => i.id == infoElement.player_response.videoDetails.videoId);
 				
 				var format = ytdl.chooseFormat(infoElement.formats, {
 					quality: "highest"
@@ -83,13 +83,13 @@ function processPlaylistRequest(req, res) {
 					title: item.title,
 					description: infoElement.description,
 					//url: baseAddress + "/video/" + infoElement.video_id,
-					url: baseAddress + "/video/" + infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2),
+					url: baseAddress + "/video/" + infoElement.player_response.videoDetails.videoId,
 					guid: infoElement.video_id,
 					author: infoElement.author.name,
 					date: infoElement.published,
 					enclosure: {
 						//url: baseAddress + "/video/" + infoElement.video_id,
-						url: baseAddress + "/video/" + infoElement.video_url.substring(infoElement.video_url.indexOf("v=") + 2),
+						url: baseAddress + "/video/" + infoElement.player_response.videoDetails.videoId,
 						type: format.type,
 						size: responseElement != null ? responseElement.headers['content-length'] : 0
 					},
