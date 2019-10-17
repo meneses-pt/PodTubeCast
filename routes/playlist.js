@@ -65,7 +65,7 @@ function processPlaylistRequest(req, res) {
 		playlist.items.forEach(function (element) {
 			console.log('playlist.items.forEach(function (element) {    ' + element.id)
 			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id));
-			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 10000));
+			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 100));
 		});
 		
 		Promise.all(promises).then(results => {
@@ -121,6 +121,7 @@ function waitForEventWithTimeout(object, event, t) {
         var timer;
 
         function listener(data) {
+			console.log('function listener(data) {    ' + data)
             clearTimeout(timer);
             object.removeListener(event, listener);
             resolve(data);
