@@ -65,7 +65,7 @@ function processPlaylistRequest(req, res) {
 		playlist.items.forEach(function (element) {
 			console.log('playlist.items.forEach(function (element) {    ' + element.id)
 			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id));
-			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 100));
+			//promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 100));
 		});
 		
 		Promise.all(promises).then(results => {
@@ -75,10 +75,10 @@ function processPlaylistRequest(req, res) {
 			var infoElement;
 			var responseElement;
 			
-			for(let i = 0; i < results.length; i+=2){
+			for(let i = 0; i < results.length; i+=1){
 				
 				infoElement = results[i];
-				responseElement = results[i+1];
+				//responseElement = results[i+1];
 				
 				//item = playlist.items.find(i => i.id == infoElement.video_id);
 				item = playlist.items.find(i => i.id == infoElement.player_response.videoDetails.videoId);
@@ -99,7 +99,7 @@ function processPlaylistRequest(req, res) {
 						//url: baseAddress + "/video/" + infoElement.video_id,
 						url: baseAddress + "/video/" + infoElement.player_response.videoDetails.videoId,
 						type: format.type,
-						size: responseElement != null ? responseElement.headers['content-length'] : 0
+						//size: responseElement != null ? responseElement.headers['content-length'] : 0
 					},
 					itunesAuthor: infoElement.author.name,
 					itunesExplicit: false,
