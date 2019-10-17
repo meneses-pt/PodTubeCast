@@ -10,14 +10,6 @@ var videoRouter = require("./routes/video");
 
 var app = express();
 
-var fs= require("fs")
-var access = fs.createWriteStream('./api.access.log');
-process.stdout.write = process.stderr.write = access.write.bind(access);
-
-process.on('uncaughtException', function(err) {
-	console.error((err && err.stack) ? err.stack : err);
-  });
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
