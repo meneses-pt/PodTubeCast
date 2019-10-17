@@ -16,6 +16,8 @@ router.get("/", function(req, res, next) {
 
 function processPlaylistRequest(req, res) {
 
+	console.log('processPlaylistRequest')
+
 	var playlistId;
 	if(req.params.playlistId != null && req.params.playlistId != "") {
 		playlistId = req.params.playlistId;
@@ -34,6 +36,9 @@ function processPlaylistRequest(req, res) {
 	var baseAddress = req.protocol + "://" + req.hostname;
 	
 	ytpl(parameter, function (err, playlist) {
+
+		console.log('playlist' + playlist)
+
 		if (err)
 			throw err;
 
@@ -63,6 +68,8 @@ function processPlaylistRequest(req, res) {
 		});
 		
 		Promise.all(promises).then(results => {
+
+			console.log('Promise.all' + promises)
 			
 			var infoElement;
 			var responseElement;
