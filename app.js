@@ -40,4 +40,27 @@ app.use(function(err, req, res, next) {
 	res.render("error");
 });
 
+var fs= require("fs")
+var os= require("os")
+var stdout_r = fs.createWriteStream('./node.stdout.log', { flags: 'a' })
+var stderr_r = fs.createWriteStream('./node.stderr.log', { flags: 'a' })
+
+var attachToLog= function(std, std_new){
+
+    var originalwrite= std.write
+    std.write= function(data,enc){
+        try{
+            var d= data
+            if(!Buffer.isBuffer(d))
+                d= Buffer.from(data, (typeof enc === 'string') ? enc : "utf8")
+            std_new.write.apply(std_new, d)
+        }catch(e){}
+        return originalwrite.apply(std, arguments)
+    }
+
+
+}
+attachToLog(process.stdout, stdout_r)
+attachToLog(process.stderr, stderr_r)
+
 module.exports = app;
