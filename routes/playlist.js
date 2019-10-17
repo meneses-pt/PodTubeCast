@@ -63,6 +63,7 @@ function processPlaylistRequest(req, res) {
 		var promises = [];
 		
 		playlist.items.forEach(function (element) {
+			console.log('playlist.items.forEach(function (element) {    ' + element.id)
 			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id));
 			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 10000));
 		});
