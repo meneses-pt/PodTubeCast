@@ -34,8 +34,6 @@ function processPlaylistRequest(req, res) {
 	var baseAddress = req.protocol + "://" + req.hostname;
 	
 	ytpl(parameter, function (err, playlist) {
-		
-		console.log('Inside ytpl')
 
 		if (err)
 		{
@@ -139,7 +137,7 @@ function waitForEventWithTimeout(object, event, t) {
     }).catch(function(e) {
 		console.log("Exception waitForEventWithTimeout Promise");
 		console.log(e);
-	  });
+	});
 }
 
 module.exports = router;
