@@ -35,7 +35,10 @@ function processPlaylistRequest(req, res) {
 	
 	ytpl(parameter, function (err, playlist) {
 		if (err)
+		{
+			console.log("Exception ytpl" + err)
 			throw err;
+		}			
 
 		const feed = new podcast({
 			title: playlist.title,
