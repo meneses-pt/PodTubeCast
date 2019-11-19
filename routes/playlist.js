@@ -58,8 +58,14 @@ function processPlaylistRequest(req, res) {
 		var promises = [];
 		
 		playlist.items.forEach(function (element) {
-			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id));
-			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 10000));
+			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id).catch(function(e) {
+				console.log("Exception ytdl.getBasicInfo()");
+				console.log(e);
+			  }));
+			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 10000).catch(function(e) {
+				console.log("Exception waitForEventWithTimeout");
+				console.log(e);
+			  })););
 		});
 		
 		Promise.all(promises).then(results => {
