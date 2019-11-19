@@ -32,8 +32,6 @@ function processPlaylistRequest(req, res) {
 	}
 
 	var baseAddress = req.protocol + "://" + req.hostname;
-
-	console.log('Before ytpl')
 	
 	ytpl(parameter, function (err, playlist) {
 		
@@ -64,8 +62,13 @@ function processPlaylistRequest(req, res) {
 		});
 		
 		var promises = [];
+
+		console.log('Before foreach')
 		
 		playlist.items.forEach(function (element) {
+
+			console.log('Element: ' + element)
+
 			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id).catch(function(e) {
 				console.log("Exception ytdl.getBasicInfo()");
 				console.log(e);
