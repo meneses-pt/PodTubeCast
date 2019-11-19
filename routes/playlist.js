@@ -16,8 +16,6 @@ router.get("/", function(req, res, next) {
 
 function processPlaylistRequest(req, res) {
 
-	console.log('here')
-
 	var playlistId;
 	if(req.params.playlistId != null && req.params.playlistId != "") {
 		playlistId = req.params.playlistId;
@@ -34,8 +32,13 @@ function processPlaylistRequest(req, res) {
 	}
 
 	var baseAddress = req.protocol + "://" + req.hostname;
+
+	console.log('Before ytpl')
 	
 	ytpl(parameter, function (err, playlist) {
+		
+		console.log('Inside ytpl')
+
 		if (err)
 		{
 			console.log("Exception ytpl" + err)
