@@ -65,7 +65,7 @@ function processPlaylistRequest(req, res) {
 			promises.push(waitForEventWithTimeout(ytdl("http://www.youtube.com/watch?v=" + element.id, { quality: "highest" }), "response", 10000).catch(function(e) {
 				console.log("Exception waitForEventWithTimeout");
 				console.log(e);
-			  })););
+			  }));
 		});
 		
 		Promise.all(promises).then(results => {
