@@ -62,12 +62,8 @@ function processPlaylistRequest(req, res) {
 		});
 		
 		var promises = [];
-
-		console.log('Before foreach')
 		
 		playlist.items.forEach(function (element) {
-
-			console.log('Element: ' + element)
 
 			promises.push(ytdl.getBasicInfo("http://www.youtube.com/watch?v=" + element.id).catch(function(e) {
 				console.log("Exception ytdl.getBasicInfo()");
@@ -140,7 +136,10 @@ function waitForEventWithTimeout(object, event, t) {
             object.removeListener(event, listener);
             resolve(null);
         }, t);
-    });
+    }).catch(function(e) {
+		console.log("Exception waitForEventWithTimeout Promise");
+		console.log(e);
+	  });
 }
 
 module.exports = router;
