@@ -16,6 +16,8 @@ router.get("/", function(req, res, next) {
 
 function processPlaylistRequest(req, res) {
 
+	console.log('here')
+
 	var playlistId;
 	if(req.params.playlistId != null && req.params.playlistId != "") {
 		playlistId = req.params.playlistId;
