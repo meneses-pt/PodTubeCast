@@ -7,10 +7,12 @@ const webHelpers = require("../helpers/web");
 const router = express.Router();
 
 router.get("/:playlistId", function(req, res, next) {
+	console.log("processPlaylistRequest: Request received");
 	processPlaylistRequest(req, res);
 });
 
 router.get("/", function(req, res, next) {
+	console.log("processPlaylistRequest: Request received");
 	processPlaylistRequest(req, res);
 });
 
@@ -32,7 +34,7 @@ function processPlaylistRequest(req, res) {
 		else {
 			parameter = playlistId;
 		}
-		
+
 		console.log("Processing playlist: " + parameter);
 	
 		var baseAddress = req.protocol + "://" + req.hostname;
