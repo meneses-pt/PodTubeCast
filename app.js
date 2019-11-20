@@ -40,4 +40,6 @@ app.use(function(err, req, res, next) {
 	res.render("error");
 });
 
+console.log("App Started!")
+
 module.exports = app;
