@@ -122,9 +122,7 @@ function processPlaylistRequest(req, res) {
 	}
 	catch(e) {
 		console.log("Catch exception: " + e)
-	}
-	finally {
-		res.send("Error")
+		res.send("Error processing playlist")
 	}
 	
 }
