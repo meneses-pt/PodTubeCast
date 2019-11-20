@@ -7,16 +7,16 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
+    "debug": "~4.1.1",
+    "express": "~4.17.1",
     "get-youtube-playlist-id": "0.0.1",
-    "http-errors": "~1.6.2",
-    "http-proxy": "^1.17.0",
-    "morgan": "~1.9.0",
+    "http-errors": "~1.7.3",
+    "http-proxy": "^1.18.0",
+    "morgan": "~1.9.1",
     "podcast": "^1.1.0",
     "pug": "^2.0.4",
     "simple-node-logger": "^18.12.23",
-    "ytdl-core": "^0.29.3",
-    "ytpl": "^0.1.14"
+    "ytdl-core": "^1.0.0",
+    "ytpl": "^0.1.18"
   }
 }
